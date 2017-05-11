@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Application-Lifecycle</string>
+    <string name="activity_count">Activity %d</string>
+</resources>
