@@ -1,6 +1,7 @@
 package org.neotech.app.applicationlifecycledemo;
 
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,16 +19,26 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_a);
         findViewById(R.id.button).setOnClickListener(this);
 
-        activityCount = getIntent().getIntExtra("activity_count", 0);
-        if(activityCount != 0) {
+        if(savedInstanceState == null) {
+            activityCount = getIntent().getIntExtra("activityCount", 0);
+        } else {
+            activityCount = savedInstanceState.getInt("activityCount", 0);
+        }
+        if (activityCount != 0) {
             ((TextView) findViewById(android.R.id.text1)).setText(getString(R.string.activity_count, activityCount));
         }
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("activityCount", activityCount);
+    }
+
+    @Override
     public void onClick(View v) {
         final Intent intent = new Intent(this, ActivityA.class);
-        intent.putExtra("activity_count", activityCount + 1);
+        intent.putExtra("activityCount", activityCount + 1);
         startActivity(intent);
     }
 }
