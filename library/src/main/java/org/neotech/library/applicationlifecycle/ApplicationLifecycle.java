@@ -62,7 +62,7 @@ public class ApplicationLifecycle {
      * using {@link #unregister(Listener)} in order for it to be garbage collected.
      * @param applicationBackgroundListener the listener to register.
      */
-    public static void register(Listener applicationBackgroundListener){
+    public synchronized static void register(Listener applicationBackgroundListener){
         getInstance().listeners.add(applicationBackgroundListener);
     }
 
@@ -71,7 +71,7 @@ public class ApplicationLifecycle {
      * @param applicationBackgroundListener the listener to unregister.
      * @see #register(Listener)
      */
-    public static void unregister(Listener applicationBackgroundListener){
+    public synchronized static void unregister(Listener applicationBackgroundListener){
         getInstance().listeners.remove(applicationBackgroundListener);
     }
 
@@ -105,7 +105,7 @@ public class ApplicationLifecycle {
 
     private class ActivityLifecycleCounter implements Application.ActivityLifecycleCallbacks {
 
-        private int started = 0;
+        private volatile int started = 0;
 
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
