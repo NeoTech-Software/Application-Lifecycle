@@ -3,6 +3,7 @@ package org.neotech.library.applicationlifecycle;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -139,6 +140,9 @@ public class ApplicationLifecycle {
                 for(Listener listener: listeners){
                     listener.applicationDidEnterBackground();
                 }
+            } else if(started < 0){
+                Log.w("ApplicationLifecycle", "Unexpected call to onActivityStopped(), expected call to onActivityStarted() instead. Make sure you're initializing the ApplicationLifecycle in the Application.onCreate() method!");
+                started = 0;
             }
         }
 
